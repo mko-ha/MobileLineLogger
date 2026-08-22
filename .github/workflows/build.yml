@@ -1,4 +1,4 @@
-name: Build MobileLineLogger v1 APK
+name: Build MobileLineLogger v2 APK
 
 on:
   workflow_dispatch:
@@ -24,18 +24,17 @@ jobs:
 
       - name: Extract
         run: |
-          mkdir -p build-project
-          unzip -q MobileLineLogger_v1.zip -d build-project
-          find build-project -maxdepth 3 -type f | head -50
+          rm -rf build-project
+          mkdir build-project
+          unzip -q MobileLineLogger_v2.zip -d build-project
 
       - name: Build APK
         run: |
-          cd build-project/MobileLineLogger_v1
+          cd build-project/MobileLineLogger_v2
           gradle :app:assembleDebug --stacktrace
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: MobileLineLogger-v1-debug
-          path: build-project/MobileLineLogger_v1/app/build/outputs/apk/debug/app-debug.apk
+          name: MobileLineLogger-v2-debug
+          path: build-project/MobileLineLogger_v2/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
